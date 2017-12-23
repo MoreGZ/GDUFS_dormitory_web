@@ -4,7 +4,7 @@ require("../../commons/css/reset.css");
 require("../../commons/css/footer1.css")
 require("../../commons/css/background.css")
 
-var adpatScreen = require("../../commons/js/adapt_screen.js");
+// var adpatScreen = require("../../commons/js/adapt_screen.js");
 
 var bcDom = $(".background .img");
 var clientWidth = window.screen.width

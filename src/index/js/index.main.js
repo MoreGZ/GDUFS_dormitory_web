@@ -5,7 +5,7 @@ require("../../commons/css/header1.css");
 require("../css/index.css");
 
 var $ = require("jquery");
-var adpatScreen = require("../../commons/js/adapt_screen.js");
+// var adpatScreen = require("../../commons/js/adapt_screen.js");
 
 
 var bcDom = $(".background .img");
