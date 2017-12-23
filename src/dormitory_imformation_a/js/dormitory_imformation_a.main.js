@@ -66,7 +66,6 @@ var list = {
 		var liDoms = $(".none_main ul");
 		var dl = data.length;
 		var i = 0;
-		// console.log(data);
 		liDoms.each(function(){
 			$(this).find("a").each(function(){
 				var thisDom = $(this);
