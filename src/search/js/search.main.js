@@ -13,6 +13,7 @@ var loadMore = {
 	ifHasAlert: false,
 	resultCount: $(".main1").length+$(".main2").length,
 	liType:["main1","main2"],
+	ajaxSemaphore:true,
 	addMore:function(data){
 		var data = JSON.parse(data);
 		if(!data && !this.ifHasAlert){
@@ -70,11 +71,30 @@ var loadMore = {
 	},
 	loadMoreHandler:function(){
 		var _this = this;
-		$.get(url3,{
-			page:this.page
-		},function(data,status){
-			_this.addMore(data);
-		})
+		if(_this.ajaxSemaphore){
+			_this.ajaxSemaphore = false;
+			$.ajax({
+				typa:"GET",
+				url:url3,
+				data:{
+					page:_this.page
+				},
+				success:function(data,status){
+					_this.addMore(data);
+					var t = setTimeout(function(){
+						_this.ajaxSemaphore = true;
+					}, 300);
+					
+				},
+				error:function(error){
+					// alert("服务器出现故障，请稍后重试");
+					var t = setTimeout(function(){
+						_this.ajaxSemaphore = true;
+					}, 300);
+				}
+			})
+		}
+		
 	},
 	init:function(){
 		this.bindHandler();

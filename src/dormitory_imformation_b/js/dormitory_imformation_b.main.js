@@ -147,8 +147,10 @@ function studentFactury(_this){
 	return student;
 }
 var loadMore = {
-	page:0,
+	page:1,
 	ifHasAlert:false,
+	ajaxSemaphore:true,
+	dorm:undefined,
 	addMore:function(data){
 		var data = JSON.parse(data);
 		if(!data && !this.ifHasAlert){
@@ -184,13 +186,38 @@ var loadMore = {
 	},
 	loadMoreHandler:function(){
 		var _this = this;
-		$.get(url2,{
-			page:this.page
-		},function(data,status){
-			_this.addMore(data);
-		})
+		if(_this.ajaxSemaphore){
+			_this.ajaxSemaphore = false;
+			$.ajax({
+				typa:"GET",
+				url:url2,
+				data:{
+					dorm:_this.dorm,
+					page:_this.page
+				},
+				success:function(data,status){
+					_this.addMore(data);
+					var t = setTimeout(function(){
+						_this.ajaxSemaphore = true;
+					}, 300);
+					
+				},
+				error:function(error){
+					// alert("服务器出现故障，请稍后重试");
+					var t = setTimeout(function(){
+						_this.ajaxSemaphore = true;
+					}, 300);
+				}
+			})
+		}
+		// $.get(url2,{
+		// 	page:this.page
+		// },function(data,status){
+		// 	_this.addMore(data);
+		// })
 	},
-	init:function(){
+	init:function(dorm){
+		this.dorm = dorm;
 		this.bindHandler();
 	}
 }
@@ -212,12 +239,10 @@ function sendDormManage(dorm,name,id){
 	})
 }
 $(window).ready(function(){
-	loadMore.init();
-
 	var dormStr = $(".sectionTitle h5").text();
 	var dorm = {};
-	dorm['build'] = new RegExp('苑(.*?)栋').exec(dormStr)[1];
-	dorm['floor'] = new RegExp('(.?)楼').exec(dormStr)[1];
+	dorm['build'] = new RegExp('苑([0-9]*?)栋').exec(dormStr)[1];
+	dorm['room'] = new RegExp('([0-9]*?)宿舍').exec(dormStr)[1];
 	switch (dormStr.substring(0, 1)) {
 		case '南':
 			dorm['area'] = "south";
@@ -235,7 +260,8 @@ $(window).ready(function(){
 			dorm['area'] = "";
 			break;
 	}
-
+	// console.log(dorm);
+	loadMore.init(dorm);
 
 	// console.log(dorm)
 	var students = $(".student");

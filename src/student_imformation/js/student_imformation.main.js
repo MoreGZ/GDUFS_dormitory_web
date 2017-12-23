@@ -238,8 +238,9 @@ var markLi1 = [];
 var markLi2 = ["note"];
 
 var loadMore = {
-	page:0,
+	page:1,
 	ifHasAlert:false,
+	ajaxSemaphore:true,
 	addMore:function(data){
 		var data = JSON.parse(data);
 		if(!data && !this.ifHasAlert){
@@ -275,12 +276,36 @@ var loadMore = {
 	},
 	loadMoreHandler:function(){
 		var _this = this;
-		$.get(url2,{
-			name:$(".student boxTitle").text(),
-			page:this.page
-		},function(data,status){
-			_this.addMore(data);
-		})
+		if(_this.ajaxSemaphore){
+			_this.ajaxSemaphore = false;
+			$.ajax({
+				typa:"GET",
+				url:url2,
+				data:{
+					name:$(".student boxTitle").text(),
+					page:_this.page
+				},
+				success:function(data,status){
+					_this.addMore(data);
+					var t = setTimeout(function(){
+						_this.ajaxSemaphore = true;
+					}, 300);
+					
+				},
+				error:function(error){
+					// alert("服务器出现故障，请稍后重试");
+					var t = setTimeout(function(){
+						_this.ajaxSemaphore = true;
+					}, 300);
+				}
+			})
+		}
+		// $.get(url2,{
+		// 	name:$(".student boxTitle").text(),
+		// 	page:this.page
+		// },function(data,status){
+		// 	_this.addMore(data);
+		// })
 	},
 	init:function(){
 		this.bindHandler();
