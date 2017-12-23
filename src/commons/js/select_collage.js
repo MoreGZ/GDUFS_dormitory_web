@@ -37,8 +37,10 @@ collageSeletor.prototype = {
 		// 改变li的样式
 		this.selectListDom.find("li").css("color","#333");
 		thisEle.css("color","#3080EE");
+		// console.log(this.inputDom.val());
 		// 改变选择框的选择值
 		this.inputDom.val(this.value);
+		// console.log(this.inputDom.val());		
 	},
 	bindHandler:function(){
 		var _this = this;
