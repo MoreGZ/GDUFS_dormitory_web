@@ -16,11 +16,13 @@ var list = {
 			if(_this.status==1) {
 				_this.showNullHandler();
 				_this.status = 0;
+				$(this).text("显示所有宿舍")
 				return;
 			}
 			if (_this.status==0) {
 				_this.showAllHandler();
 				_this.status = 1;
+				$(this).text("仅显示有空床位宿舍")
 				return;
 			}
 		})
