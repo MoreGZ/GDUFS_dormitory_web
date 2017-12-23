@@ -8,6 +8,7 @@ var $ = require("jquery");
 var url1 = $("#url1").text();
 var url2 = $("#url2").text();
 var url3 = $("#url3").text();
+var url4 = $("#url4").text();
 
 function studentFactury(_this){
 	var student = {};
@@ -33,6 +34,9 @@ function studentFactury(_this){
 		}
 		var n = this.thisDom.find(".boxTitle").text();
 		this.setData("name",n);
+
+		this.data.id = this.thisDom.find(".id").text();
+		// console.log(this.data);
 		// 初始化宿舍长
 		var k = this.thisDom.find(".ifDormManager").attr("class").split(" ")[1];
 		this.setDormManager(x[k]);
@@ -64,14 +68,35 @@ function studentFactury(_this){
 		// this.thisDom.find(".add").click();
 		this.thisDom.find(".cansoleBtn").click(this.cansoleHandler);
 		this.thisDom.find(".editBtn").click(function(){
+			var thisEle = this;
 			if(_this.status=="have") {
-				$(this).text("取消");
-				_this.haveEditHandler();
+
+				$.ajax({
+					type:"POST",
+					data:{
+						number:_this.thisDom.find(".id").text(),
+						type:"student"
+					},
+					url:url4,
+					success:function(data,status){
+						data = JSON.parse(data);
+						if(data.authority){
+							$(thisEle).text("取消");
+							_this.haveEditHandler();	
+						}else {
+							alert("对不起，你没有修改权限")
+						}
+					},
+					error:function(error){
+						alert("服务器出现了点问题，请稍后重试")
+					},
+				})
+
 				return ;
 			}
 
 			if(_this.status=='haveEdit') {
-				$(this).text("编辑");
+				$(thisEle).text("编辑");
 				_this.cansoleEditHandler();
 				return;
 			}
@@ -278,14 +303,43 @@ $(window).ready(function(){
 	$(".ifDormManager").each(function(index){
 		var i = index;
 		$(this).click(function(){
-			for(index in studentsObj){
-				studentsObj[index].setDormManager(0);
-			}
-			var value = Math.abs(studentsObj[i].ifDormManager-1);
-			studentsObj[i].setDormManager(value);
 
-			// 向后台发送数据
-			sendDormManage(dorm,studentsObj[i].data.name,studentsObj[i].data.id);
+			$.ajax({
+				type:"POST",
+				data:{
+					number:studentsObj[i].data.id,
+					type:"student"
+				},
+				url:url4,
+				success:function(data,status){
+					data = JSON.parse(data);
+					if(data.authority){
+						
+						for(index in studentsObj){
+							studentsObj[index].setDormManager(0);
+						}
+						var value = Math.abs(studentsObj[i].ifDormManager-1);
+						studentsObj[i].setDormManager(value);
+
+						// 向后台发送数据
+						sendDormManage(dorm,studentsObj[i].data.name,studentsObj[i].data.id);	
+					}else {
+						alert("对不起，你没有修改权限")
+					}
+				},
+				error:function(error){
+					alert("服务器出现了点问题，请稍后重试")
+				},
+			})
+
+			// for(index in studentsObj){
+			// 	studentsObj[index].setDormManager(0);
+			// }
+			// var value = Math.abs(studentsObj[i].ifDormManager-1);
+			// studentsObj[i].setDormManager(value);
+
+			// // 向后台发送数据
+			// sendDormManage(dorm,studentsObj[i].data.name,studentsObj[i].data.id);
 		})
 	})
 })
