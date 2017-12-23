@@ -35,9 +35,9 @@ $(window).ready(function(){
 		$(".password label").css("color","#fff");
 	})
 
-	adpatScreen(bcDom,clientWidth);
+	// adpatScreen(bcDom,clientWidth);
 	
-	window.onresize = function(){
-		adpatScreen(bcDom,clientWidth);
-	}
+	// window.onresize = function(){
+	// 	adpatScreen(bcDom,clientWidth);
+	// }
 })

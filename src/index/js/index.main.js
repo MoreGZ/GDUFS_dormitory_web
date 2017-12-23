@@ -25,10 +25,10 @@ var clientWidth = window.screen.width
 console.log(clientWidth);
 $(window).ready(function(){
 
-	adpatScreen(bcDom,clientWidth);
+	// adpatScreen(bcDom,clientWidth);
 	
-	window.onresize = function(){
-		adpatScreen(bcDom,clientWidth);
-	};
+	// window.onresize = function(){
+	// 	adpatScreen(bcDom,clientWidth);
+	// };
 	$('.searchInput').focus(focusHandler).blur(blurHandler);
 })
