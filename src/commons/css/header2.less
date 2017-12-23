@@ -1,0 +1,59 @@
+.header{
+	a{
+		cursor: pointer;
+	}
+	width: 980px;
+	margin: auto;
+	overflow: auto;
+	background-color: #fff;
+	.navbar{
+		float: left;
+		li{
+			display: inline-block;
+			margin-right:  36px;
+			a{
+				height: 75px;
+				line-height: 75px;
+				display: inline-block;
+				font-size: 16px;
+				font-weight: 800;
+			}
+		}
+		.active{
+			a{
+				color:#3080EE;
+			}
+		}
+		.unactive{
+			a{
+				color: #333;
+			}
+		}
+	}
+	.user{
+		float: right;
+		span{
+			float: left;
+			padding: 27px 0px;
+			margin-left:  10px;
+			color: #333333;
+			font-size: 16px;
+			font-weight: 800;
+		}
+	}
+	.active{
+		color: #3080EE;
+		a{
+			color:#3080EE;
+		}
+	}
+}
+.headerBox{
+	box-shadow: 6px 0px 5px 0px rgba(48,128,238,0.2);
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	background-color: #fff;
+	z-index: 2;
+}

@@ -1,0 +1,307 @@
+.main{
+	padding-top: 70px;
+	width:100%;
+	overflow:auto;
+	.backBtnBox{
+		margin: auto;
+		width:960px;
+	}
+	.sectionTitle{
+		width: 100%;
+		height: 1px;
+		background-color: #efefef;
+		position: relative;
+		margin-bottom: 5px;
+		margin-top: 10px;
+		h5{
+			font-size: 20px;
+			color: #333333;
+			position: absolute;
+			top:50%;
+			left: 50%;
+			margin-left: -100px;
+			margin-top: -15px;
+			width:200px;
+			text-align: center;
+			background: #fff;
+		}
+	}
+	.students{
+		width: 1005px;
+		position: relative;
+		left: 25px;
+		margin: 28px auto;
+		.student{
+			width: 420px;
+			height: 360px;
+			padding-left: 20px;
+			padding-right: 20px;
+			background-color: #fff;
+			// display: inline-block;
+			float: left;
+			margin-right: 40px;
+			margin-bottom: 40px;
+			box-shadow: 0px 0px 10px 0px rgba(48,128,238,0.2);
+			border-radius: 4px;
+			position: relative;
+			.student_main{
+				.boxTitle{
+					font-size: 26px;
+					color: #333333;
+					position: absolute;
+					top: 20px;
+					left: 20px;
+				}
+				.line{
+					width: 302px;
+					height: 2px;
+					position: absolute;
+					left: 140px;
+					top: 35px;
+					background-color: #efefef;
+				}
+				.editBtn,.saveBtn{
+					width: 88px;
+					height: 28px;
+					background: #fff;
+					border: 1px solid #3080EE;
+					border-radius: 4px;
+					outline: none;
+					position: absolute;
+					top: 20px;
+					color: #3080EE;
+					cursor: pointer;
+					transition:all 0.2s linear;
+				}
+				.editBtn:hover,.saveBtn:hover{
+					background-color: #3080EE;
+					color: #fff;
+					box-shadow: 0px 0px 15px 3px rgba(48,128,238,0.4);
+				}
+				.editBtn{
+					right: 120px;
+				}
+				.saveBtn{
+					right: 20px;
+				}
+				form{
+					margin-top: 75px;
+					li{
+						height: 37px;
+						line-height: 37px;
+						.title{
+							// float: left;
+							font-size: 16px;
+							color: #333;
+							font-weight: 800;
+							width: 90px;
+							display: inline-block;
+						}
+						.value{
+							font-size: 16px;
+							color: #3080EE;
+							font-weight: 800;
+							
+							width: 310px;
+							word-wrap:break-word;
+						}
+						.value1{
+							font-size: 16px;
+							color: #3080EE;
+							font-weight: 800;
+							
+							width: 310px;
+							word-wrap:break-word;
+						}
+						input[type='text']{
+							font-size: 16px;
+							color: #999999;
+							font-weight: 800;
+							width: 310px;
+							border:none;
+							outline: none;
+
+						}
+					}
+				}
+				.buttonBox{
+					text-align: center;
+					margin-top: 5px;
+				}
+				input[type='button']{
+					display: inline-block;
+					width: 420px;
+					height: 40px;
+					color: #fff;
+					border-radius: 4px;
+					border:none;
+					outline: none;
+					transition:all 0.2s linear;
+					cursor: pointer;
+				}
+				.a{
+					background-color: #3080EE
+				}
+				.a:hover{
+					box-shadow: 0px 0px 15px 3px rgba(48,128,238,0.4);
+				}
+				.b{
+					background-color: #333;
+				}
+			}
+			.add{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				height: 50px;
+				text-align: center;
+				margin-left: -40px;
+				margin-top: -50px;
+				img{
+					width: 42px;
+					margin-bottom: 10px
+				}
+				span{
+					font-size: 20px;
+					color: #3080ee;
+				}
+			}
+			.input{
+				width: 280px;
+				height: 145px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -140px;
+				margin-top: -70px;
+				input[type='text']{
+					border-radius: 4px;
+					border:1px solid #999999;
+					width: 258px;
+					padding-left: 10px;
+					padding-right: 10px;
+					height: 38px;
+					font-size: 20px;
+					margin-bottom: 10px;
+				}
+				input[type='button']{
+					width: 118px;
+					height: 30px;
+					color: #3080ee;
+					border: 1px solid #3080ee;
+					background-color: #fff;
+					outline: none;
+					border-radius: 4px;
+					transition:all 0.2s linear;
+					margin-top: 10px;
+				}
+				input[type='button']:hover{
+					color: #fff;
+					background-color: #3080ee;
+					border:1px solid #3080ee;
+				}
+				input[name='saveBtn']{
+					float: left;
+				}
+				input[name='cansoleBtn']{
+					float: right;
+				}
+			}
+			.loading{
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -16px;
+				margin-top: -16px;
+				opacity: 0;
+			}
+		}
+		.haveEdit{
+			.input{
+				display: none;
+			}
+			.add{
+				display: none;
+			}
+			.student_main{
+				input{
+					display: inline-block;
+				}
+				.value{
+					display: none;
+				}
+			}
+		}
+		.edit{
+			.add{
+				display: none;
+			}
+			.student_main{
+				display: none;
+			}
+		} 
+		.have{
+			.input{
+				display: none;
+			}
+			.add{
+				display: none;
+			}
+			.student_main{
+				input{
+					display: none;
+				}
+				.value{
+					display: inline-block;
+				}
+			}
+		}
+		.null{
+			.student_main{
+				display: none;
+			}
+			.input{
+				display: none;
+			}
+		}
+	}
+	.changeRecord{
+		margin-bottom: 150px;
+		ul{
+			width:980px;
+			margin: auto;
+		}
+		.record{
+			font-size: 16px;
+			color:#999;
+			margin-bottom: 20px;
+		}
+		.recordTitle{
+			font-size: 25px;
+			color:#333;
+			margin-bottom: 30px;
+			width: 980px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.more{
+			width: 100%;
+			height: 1px;
+			background-color: #efefef;
+			position: relative;
+			.moreBtn{
+				width: 100px;
+				background-color: #fff;
+				border: none;
+				outline: none;
+				color: #333;
+				position: absolute;
+				top:50%;
+				left: 50%;
+				margin-left: -50px;
+				margin-top: -8.8px;
+				cursor: pointer;
+			}
+		}
+	}
+}

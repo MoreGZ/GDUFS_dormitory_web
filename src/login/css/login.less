@@ -1,0 +1,111 @@
+.main{
+	width:500px;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -250px;
+	margin-top: -250px;
+	.logo{
+		width: 500px;
+		text-align: center;
+		img{
+			width: 90px;
+			height: 90px;
+		}
+	}
+	.title{
+		font-size: 50px;
+		color: #fff;
+	}
+	form{
+		.username,.password{
+			width: 498px;
+			height: 38px;
+			border-radius: 4px;
+			border: 1px solid #fff;
+			background-color: none;
+			margin-top: 20px;
+			transition:all 0.2s linear;	
+			label{
+				height: 40px; 	
+				line-height: 40px;
+				color: #fff;
+				margin-left: 11px;
+			}
+		}
+		.other{
+			// overflow: auto;
+			position: relative;
+			span{
+				font-size: 12px;
+				color: #fff;
+				margin-bottom: 11px;
+				
+			}
+			.error{
+				float: left;
+				margin-top: 11px;
+			}
+			.remenber{
+				position: absolute;
+				right: 62px;
+				margin-top: 14px;
+				input{
+					display: none;
+				}
+				input:checked+label{
+					background-color: #fff;
+				}
+				input:hover+label{
+					background-color: #fff;
+				}		
+				label{
+					cursor: pointer;
+					width: 7px;
+					height: 7px;
+					border:1px solid #fff;
+					display: inline-block;
+					border-radius: 30px;
+					position: relative;
+					transition:all 0.2s linear;
+				}
+				label::after{
+					content: "记住密码";
+					position: relative;
+					top: -5px;
+					left: 100%;
+					width: 50px;
+					margin-left: 6px;
+					display: inline-block;
+				}
+			}
+		}
+		input[type='text']{
+			background:none;
+			border: none;
+			outline:none;
+			height: 38px;
+			width:400px;
+			font-size: 16px;
+			margin-left: 20px;
+			color: #fff;
+			position: relative;
+			top: -2px
+		}
+		input[type=submit]{
+			width: 500px;
+			height: 38px;
+			background-color: #333333;
+			border: none;
+			border-radius: 4px;
+			color: #fff;
+			font-size: 16px;
+			transition:all 0.2s linear;
+			cursor: pointer;
+		}
+		input[type=submit]:hover{
+			background-color: #3080ee;
+			box-shadow:0px 0px 10px 0px rgba(0,0,0,0.3);
+		}
+	}
+}
