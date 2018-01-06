@@ -5,6 +5,7 @@ const hotMiddleware = require('webpack-hot-middleware');
 const records = require("../records.json");
 const searchResult = require("../search_result.json");
 const counselors = require("../counselors.json");
+const selectObject = require("../selectObject.json");
 var webpackDevConf = require("./webpack.dev.conf.js");
 var compiler = webpack(webpackDevConf);
 
@@ -35,6 +36,9 @@ apiRoutes.get("/cccc",function(req,res){
 });
 apiRoutes.get("/dddd",function(req,res){
 	res.end(JSON.stringify(counselors));
+});
+apiRoutes.post("/ffff",function(req,res){
+	res.end(JSON.stringify(selectObject));
 });
 app.use("/api",apiRoutes);
 
