@@ -163,7 +163,6 @@ function studentFactury(_this){
 		this.setStatus("have");
 	}).bind(student);
 
-	student.setDormManagerHandler = (function(){}).bind(student);
 	student.init = function(){
 		this.bindHandler();
 		this.initData();
