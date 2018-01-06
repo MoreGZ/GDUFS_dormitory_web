@@ -15,7 +15,7 @@ function studentFactury(_this){
 	student.data = {};
 	student.dataCopy = {};
 	// status有五种状态，null，have，edit，haveEdit
-	student.status = "have";
+	student.status = _this.attr("class").split(" ")[1];
 	student.thisDom = _this;
 	student.ifDormManager = 0;
 	student.initData = function(){
@@ -42,7 +42,6 @@ function studentFactury(_this){
 		this.setDormManager(x[k]);
 
 		// 初始化status
-
 		this.setStatus();
 	};
 	student.setDormManager = function(value){
@@ -139,6 +138,7 @@ function studentFactury(_this){
 
 	student.cansoleHandler = (function(){
 		this.setStatus("null");
+		this.thisDom.find(".input").find("input[type='text']").each(function(){$(this).val("")});
 	}).bind(student);
 
 	student.saveHandler = (function(){
@@ -330,15 +330,6 @@ $(window).ready(function(){
 					alert("服务器出现了点问题，请稍后重试")
 				},
 			})
-
-			// for(index in studentsObj){
-			// 	studentsObj[index].setDormManager(0);
-			// }
-			// var value = Math.abs(studentsObj[i].ifDormManager-1);
-			// studentsObj[i].setDormManager(value);
-
-			// // 向后台发送数据
-			// sendDormManage(dorm,studentsObj[i].data.name,studentsObj[i].data.id);
 		})
 	})
 })
