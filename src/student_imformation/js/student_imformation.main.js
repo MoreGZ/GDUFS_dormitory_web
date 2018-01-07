@@ -13,10 +13,19 @@ function createMainBox(title,li1,li2){
 	obj.title = title;
 	obj.li1 = li1;
 	obj.li2 = li2;
+	
 	// 定义目前的状态，normal表示平时，edit表示正在编辑，send为课发送状态
 	obj.status = "normal"
 	// 记录当前编辑的记录
 	obj.data = {};
+	obj.thisDom = $("."+title);
+	// 
+	obj.selectObject = JSON.parse(localStorage.getItem("selectObject"));
+
+	obj.selectObjectCollege = undefined;
+	obj.selectObjectGrade = undefined;
+	obj.selectObjectMajor = undefined;
+	obj.selectObjectClass = undefined;
 
 	obj.handler = {
 		eidtHandler:function(){
@@ -25,7 +34,11 @@ function createMainBox(title,li1,li2){
 			}
 
 			for(index in this.li1){
-				$('.'+this.title).find('.'+this.li1[index]).css('display','none').siblings('input').css('display','inline-block').siblings('label').css('display','inline-block');
+				var x = $('.'+this.title).find('.'+this.li1[index]).css('display','none');
+				x.siblings('input').css('display','inline-block');
+				// console.log(x);
+				x.siblings('select').css('display','inline-block');
+				x.siblings('label').css('display','inline-block');
 			}
 			for(index in this.li2){
 				$('.'+this.title).find('.'+this.li2[index]).attr('disabled',false);
@@ -41,9 +54,11 @@ function createMainBox(title,li1,li2){
 			}
 			// 变回原形
 			for(index in this.li1){
-				$('.'+this.title).find('.'+this.li1[index]).css('display','inline-block')
-				.siblings('input').css('display','none')
-				.siblings('label').css('display','none');
+				var x = $('.'+this.title).find('.'+this.li1[index]).css('display','inline-block');
+				x.siblings('input').css('display','none');
+
+				x.siblings('select').css('display','none')
+				x.siblings('label').css('display','none');
 			}
 			for(index in this.li2){
 				$('.'+this.title).find('.'+this.li2[index]).attr('disabled','disabled');
@@ -64,6 +79,16 @@ function createMainBox(title,li1,li2){
 					$('.'+this.li1[index]).html(value);
 					continue;
 				}
+				
+				// 处理选择框
+				if(this.li1[index]=="collage" || this.li1[index] == "major" || this.li1[index] == "className"|| this.li1[index] == "grade"){
+					var value = $("select[name='"+this.li1[index]+"']").val();
+
+					this.data[this.li1[index]] = value;
+					$('.'+this.li1[index]).html(value);
+
+					continue;
+				}
 
 				var value = $("input[name='"+this.li1[index]+"']").val();
 				this.data[this.li1[index]] = value;
@@ -74,13 +99,17 @@ function createMainBox(title,li1,li2){
 			}
 			// 变回原形
 			for(index in this.li1){
-				$('.'+this.title).find('.'+this.li1[index]).css('display','inline-block')
-				.siblings('input').css('display','none')
-				.siblings('label').css('display','none');
+				var x = $('.'+this.title).find('.'+this.li1[index]).css('display','inline-block');
+				x.siblings('input').css('display','none');
+
+				x.siblings('select').css('display','none')
+				x.siblings('label').css('display','none');
 			}
 			for(index in this.li2){
 				$('.'+this.title).find('.'+this.li2[index]).attr('disabled','disabled');
 			}
+
+			console.log(this.data);
 			// 发送数据
 			var _this = this;
 			$.post(url1,{
@@ -110,6 +139,54 @@ function createMainBox(title,li1,li2){
 			if($('input[name="ifInsurance"]:checked').val()=='无'){
 				$('input[name="insurance"]').css("display","none").val("");
 			}
+		},
+		changeCollegeHandler:function(value){
+			var selectCollege = $("select[name='collage']");
+			var selectMajor= $("select[name='major']");
+			var selectGrade= $("select[name='grade']");
+			var selectClass= $("select[name='className']");
+
+			this.methods.setCollegeValue.call(this,value,selectCollege);
+
+			var options = this.methods.getMajorOptions.call(this);
+			this.methods.setOptions.call(this,options,selectMajor);
+
+			var options = this.methods.getGradeOptions.call(this);
+			this.methods.setOptions.call(this,options,selectGrade);
+
+
+			this.selectObjectGrade = undefined
+			this.selectObjectMajor = undefined
+			this.selectObjectClass = undefined
+			selectMajor.val("");
+			selectGrade.val("");
+			selectClass.val("").html("");
+		},
+		changeGradeHandler:function(value){
+			var selectGrade= $("select[name='grade']");
+			var selectClass= $("select[name='className']");
+			this.methods.setGradeValue.call(this,value,selectGrade);
+			this.selectObjectClass = undefined;
+			selectClass.html("");
+			if(this.selectObjectMajor){
+				var options = this.methods.getClassOptions.call(this);
+				this.methods.setOptions.call(this,options,selectClass);
+			}
+
+			selectClass.val("");
+		},
+		changeMajorHandler:function(value){
+			var selectMajor= $("select[name='major']");
+			var selectClass= $("select[name='className']");
+			console.log(this.electObjectCollege)
+			this.methods.setMajorValue.call(this,value,selectMajor);
+			this.selectObjectClass = undefined;
+			selectClass.html("");
+			if(this.selectObjectGrade){
+				var options = this.methods.getClassOptions.call(this);
+				this.methods.setOptions.call(this,options,selectClass);
+			}
+			selectClass.val("");
 		}
 	}
 
@@ -124,6 +201,42 @@ function createMainBox(title,li1,li2){
 					continue;
 				}
 
+				// 处理选择框
+				if(this.li1[index]=="collage" || this.li1[index] == "major" || this.li1[index] == "className"|| this.li1[index] == "grade"){
+					var value = $('.'+this.li1[index]).text();
+					var select = $("select[name='"+this.li1[index]+"']")
+					this.data[this.li1[index]] = value;
+					
+					if(this.li1[index] == "collage"){
+						var options = this.methods.getCollegeOptions.call(this);
+						this.methods.setOptions.call(this,options,select);
+						this.methods.setCollegeValue.call(this,value,select);
+					}
+					
+					if(this.li1[index] == "major"){
+						var options = this.methods.getMajorOptions.call(this);
+						this.methods.setOptions.call(this,options,select);
+						this.methods.setMajorValue.call(this,value,select);
+					}
+
+					if(this.li1[index] == 'grade'){
+						var options = this.methods.getGradeOptions.call(this);
+						this.methods.setOptions.call(this,options,select);
+						this.methods.setGradeValue.call(this,value,select);
+					}
+
+					if(this.li1[index] == "className"){
+						var options = this.methods.getClassOptions.call(this);
+						this.methods.setOptions.call(this,options,select);
+						this.methods.setClassValue.call(this,value,select);
+						select.val(value);
+					}
+
+					
+					continue;
+				}
+
+				// 处理输入框
 				var value = $('.'+this.li1[index]).html();
 				this.data[this.li1[index]] = value;
 				$("input[name='"+this.li1[index]+"']").val(value);
@@ -132,6 +245,84 @@ function createMainBox(title,li1,li2){
 			for(index in this.li2){
 				this.data[this.li2[index]] = $('.'+this.title).find('.'+this.li2[index]).val()
 			}
+		},
+		getCollegeOptions:function(){
+			var o = [];
+			this.selectObject.forEach(function(item,index,arr){
+
+				o.push(item.college.college);
+			})
+			return o;
+		},
+		getGradeOptions:function(){
+			var o = [];
+			
+			this.selectObjectCollege.grade.forEach(function(item,index,arr){
+				o.push(item.grade);
+			})
+			return o;
+		},
+		getMajorOptions:function(){
+			var o = [];
+			
+			this.selectObjectCollege.major.forEach(function(item,index,arr){
+				o.push(item.major);
+			})
+			return o;
+		},
+		getClassOptions:function(){
+			var _this = this;
+			var o = [];
+			this.selectObjectGrade.class.forEach(function(item,index,arr){
+				for(index in _this.selectObjectMajor.class){
+					if(item.class === _this.selectObjectMajor.class[index].class&&item.class!="") o.push(item.class);
+				}
+			})
+			console.log(o);
+			return o;
+		},
+		setOptions:function(options,select){
+			select.html("");
+			options.forEach(function(item){
+				if(item!==""){
+					var option = $("<option>").val(item).html(item);
+					select.append(option);
+				}
+			})
+		},
+
+		setCollegeValue:function(value,select){
+			select.val(value);
+			this.selectObject.forEach((function(item,index,arr){
+				if(item.college.college==value){
+					this.selectObjectCollege = item;
+				}
+			}).bind(this));
+
+			// console.log(this.selectObjectCollege);
+		},
+		setGradeValue:function(value,select){
+			select.val(value);
+			this.selectObjectCollege.grade.forEach((function(item,index,arr){
+				if(item.grade==value){
+					this.selectObjectGrade = item;
+				}
+			}).bind(this));
+
+			// console.log(this.selectObjectGrade);
+		},
+		setMajorValue:function(value,select){
+			select.val(value);
+			this.selectObjectCollege.major.forEach((function(item,index,arr){
+				if(item.major==value){
+					this.selectObjectMajor = item;
+				}
+			}).bind(this));
+
+			// console.log(this.selectObjectMajor);
+		},
+		setClassValue:function(value,select){
+			select.val(value);
 		},
 		bindHandler:function(){
 			var _this = this;
@@ -150,19 +341,32 @@ function createMainBox(title,li1,li2){
 			});
 
 			$('.'+this.title).find('.saveBtn').click(function(){
+				$(this).siblings(".editBtn").text("编辑")
 				_this.handler.saveHandler.apply(_this);
 			});
 
-			// console.log(this.li1);
+			
 			for(index in _this.li1){
 				if(_this.li1[index]=='ifInsurance'){
 
 					$("input[name='ifInsurance']").change(function(){
-						// console.log(x);
+						// console.log("x");
 						_this.handler.showInsurance.apply(_this);
 					})
 				}
 			}
+
+			this.thisDom.find("select[name='collage']").change(function(e){
+				_this.handler.changeCollegeHandler.call(_this,e.target.value);
+			})
+
+			this.thisDom.find("select[name='grade']").change(function(e){
+				_this.handler.changeGradeHandler.call(_this,e.target.value);
+			})
+
+			this.thisDom.find("select[name='major']").change(function(e){
+				_this.handler.changeMajorHandler.call(_this,e.target.value);
+			})
 		},
 		focus:function(){
 			// console.log($('.'+this.title).find('input'));
@@ -173,24 +377,6 @@ function createMainBox(title,li1,li2){
 			}
 			input1.focus();
 		}
-		// changeKey:function(){
-		// 	var d = {};
-		// 	var map = {
-		// 		"sex":,
-		// 		"id":,
-		// 		"nativePlace":,
-		// 		"grade":,
-		// 		"sourcePlace":,
-		// 		"collage":,
-		// 		"major":,
-		// 		"phoneNumber":,
-		// 		"className":,
-		// 		"birthday":,
-		// 		"idCard":,
-		// 		"dormitory":,
-		// 		"dormManager":,
-		// 	}
-		// }
 	}
 
 	obj.init = function(){
@@ -203,17 +389,18 @@ function createMainBox(title,li1,li2){
 
 	return obj;
 }
+// 学生信息
 var studentTitle = 'student';
 var studentLi1 = [
 	"sex",
 	// "id",
 	"nativePlace",
-	"grade",
 	"sourcePlace",
 	"collage",
+	"grade",
 	"major",
-	"phoneNumber",
 	"className",
+	"phoneNumber",
 	"birthday",
 	"idCard",
 	"dormitory",
@@ -221,6 +408,7 @@ var studentLi1 = [
 ]
 var studentLi2 = ["note"];
 
+// 紧急联系人
 var urgentTitle = ['urgent'];
 var urgentLi1 = [
 	"firstConnect",
@@ -233,10 +421,12 @@ var urgentLi1 = [
 ]
 var urgentLi2 = [];
 
+// 备注
 var markTitle = ['mark'];
 var markLi1 = [];
 var markLi2 = ["note"];
 
+// 加载更多
 var loadMore = {
 	page:1,
 	ifHasAlert:false,
@@ -300,17 +490,13 @@ var loadMore = {
 				}
 			})
 		}
-		// $.get(url2,{
-		// 	name:$(".student boxTitle").text(),
-		// 	page:this.page
-		// },function(data,status){
-		// 	_this.addMore(data);
-		// })
 	},
 	init:function(){
 		this.bindHandler();
 	}
 }
+
+
 $('window').ready(function(){
 	var student = createMainBox(studentTitle,studentLi1,studentLi2);
 	var urgent = createMainBox(urgentTitle,urgentLi1,urgentLi2);
