@@ -37,6 +37,12 @@ apiRoutes.get("/cccc",function(req,res){
 apiRoutes.get("/dddd",function(req,res){
 	res.end(JSON.stringify(counselors));
 });
+apiRoutes.post("/eeee",function(req,res){
+	a = {
+		authority:1
+	}
+	res.end(JSON.stringify(a));
+});
 apiRoutes.post("/ffff",function(req,res){
 	res.end(JSON.stringify(selectObject));
 });

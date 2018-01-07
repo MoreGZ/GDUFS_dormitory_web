@@ -18,9 +18,44 @@ function studentFactury(_this){
 	student.status = _this.attr("class").split(" ")[1];
 	student.thisDom = _this;
 	student.ifDormManager = 0;
+
+	student.selectObject = JSON.parse(localStorage.getItem("selectObject"));
 	student.initData = function(){
 		var _this = this;
 
+		// 初始化select的option
+			// 学院
+			this.selectObject.forEach(function(item){
+				if(item.college.college) {
+					var option = $("<option>").text(item.college.college).val(item.college.college);
+					_this.thisDom.find("select[name='collage']").append(option);
+				}
+			})
+
+			var collegeValue = this.thisDom.find(".collage").text();
+			var selectObj;
+			this.selectObject.forEach(function(item){
+				if(item.college.college) {
+					if(item.college.college==collegeValue) selectObj = item;
+					return;
+				}
+			})
+			// 年级
+			selectObj.major.forEach(function(item){
+				if(item.major) {
+					
+					var option = $("<option>").text(item.major).val(item.major);
+					_this.thisDom.find("select[name='major']").append(option);
+				}
+			})
+			// 专业
+			selectObj.grade.forEach(function(item){
+				if(item.grade) {
+					
+					var option = $("<option>").text(item.grade).val(item.grade);
+					_this.thisDom.find("select[name='grade']").append(option);
+				}
+			})
 		// 初始化data
 		var value = this.thisDom.find(".value");
 		value.each(function(){
@@ -36,7 +71,6 @@ function studentFactury(_this){
 		this.setData("name",n);
 
 		this.data.id = this.thisDom.find(".id").text();
-		// console.log(this.data);
 		// 初始化宿舍长
 		var k = this.thisDom.find(".ifDormManager").attr("class").split(" ")[1];
 		this.setDormManager(x[k]);
@@ -59,6 +93,7 @@ function studentFactury(_this){
 		}
 		this.thisDom.find("."+key).html(value);
 		this.thisDom.find("input[name='"+key+"']").val(value);
+		this.thisDom.find("select[name='"+key+"']").val(value);
 	};
 	student.bindHandler = function(){
 		var _this = this;
@@ -69,7 +104,6 @@ function studentFactury(_this){
 		this.thisDom.find(".editBtn").click(function(){
 			var thisEle = this;
 			if(_this.status=="have") {
-
 				$.ajax({
 					type:"POST",
 					data:{
@@ -101,8 +135,9 @@ function studentFactury(_this){
 			}
 		});
 		this.thisDom.find(".student_main .saveBtn").click(this.saveHandler);
-		// this.thisDom.find(".ifDormManager").click(this.setDormManagerHandler);
+		// this.thisDom.find("select[name='collage']").change();
 		var inputs = this.thisDom.find(".student_main input[type='text']");
+		var selects = this.thisDom.find(".student_main select");
 		inputs.each(function(){
 			$(this).change(function(){
 				var key,value;
@@ -110,6 +145,19 @@ function studentFactury(_this){
 				value = $(this).val();
 				key = $(this).attr("name");
 				_this.setData(key,value);
+			})
+		})
+		selects.each(function(){
+			$(this).change(function(e){
+				var key,value;
+
+				value = $(this).val();
+				key = $(this).attr("name");
+				_this.setData(key,value);
+
+				if(key=='collage'){
+					_this.changeSelectHandler(e)
+				}
 			})
 		})
 	};
@@ -142,6 +190,7 @@ function studentFactury(_this){
 	}).bind(student);
 
 	student.saveHandler = (function(){
+		this.thisDom.find(".editBtn").text("编辑")
 		this.setStatus("have");
 		// 向后台发送数据
 		this.dataCopy = {};
@@ -161,6 +210,40 @@ function studentFactury(_this){
 		}
 		this.dataCopy = {};
 		this.setStatus("have");
+	}).bind(student);
+
+	student.changeSelectHandler = (function(e){
+		var _this = this;
+		var collegeValue = e.target.value;
+		_this.thisDom.find("select[name='grade']").html("");
+		_this.thisDom.find("select[name='major']").html("");
+
+		var selectObj;
+		this.selectObject.forEach(function(item){
+			if(item.college.college) {
+				if(item.college.college==collegeValue) selectObj = item;
+				return;
+			}
+		})
+		// 年级
+		selectObj.major.forEach(function(item){
+			if(item.major) {
+				
+				var option = $("<option>").text(item.major).val(item.major);
+				_this.thisDom.find("select[name='major']").append(option);
+			}
+		})
+		// 专业
+		selectObj.grade.forEach(function(item){
+			if(item.grade) {
+				
+				var option = $("<option>").text(item.grade).val(item.grade);
+				_this.thisDom.find("select[name='grade']").append(option);
+			}
+		})
+
+		_this.thisDom.find("select[name='grade']").val("");
+		_this.thisDom.find("select[name='major']").val("");
 	}).bind(student);
 
 	student.init = function(){
