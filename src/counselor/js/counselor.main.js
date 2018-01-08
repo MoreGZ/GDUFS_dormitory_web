@@ -177,7 +177,9 @@ var main = {
 			}
 		}
 		for(var i=0;i<this.data[this.currentPage-1].length;i++){
+			console.log(this.selector[i]);
 			this.selector[i].setCounselor(this.data[this.currentPage-1][i].counselor);
+
 		}
 		console.log(this.selectValue);
 	},
@@ -334,6 +336,18 @@ var main = {
 		var aimPageDom = $(".li").children("ul");
 		// 改变内容
 		aimPageDom.each(function(index){
+			if(!_this.data[aimPage-1][index]) {
+				var x = $(this).find("li");
+				x.eq(0).html("");					
+				x.eq(1).html("");			
+				x.eq(2).html("");			
+
+			 	_this.selector[index].setCounselor("");
+				$(".loading").css("opacity","0");
+
+				return;
+			}
+
 			var x = $(this).find("li");
 			x.eq(0).html(_this.data[aimPage-1][index].collage);					
 			x.eq(1).html(_this.data[aimPage-1][index].className);			
