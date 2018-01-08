@@ -95,7 +95,7 @@ function createMainBox(title,li1,li2){
 				$('.'+this.li1[index]).html(value);
 			}
 			for(index in this.li2){
-				this.data[this.li2[index]] = $('.'+this.li2[index]).val();
+				this.data[this.li2[index]] = this.thisDom.find('.'+this.li2[index]).val();
 			}
 			// 变回原形
 			for(index in this.li1){
@@ -116,7 +116,6 @@ function createMainBox(title,li1,li2){
 				type : this.title,
 				data : this.data
 			},function(data,status){
-				// console.log(_this.data);
 				if (status!="success") {
 					_this.status = "send";
 					alert(status);
