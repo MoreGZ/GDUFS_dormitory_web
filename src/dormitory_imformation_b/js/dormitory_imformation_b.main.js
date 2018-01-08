@@ -247,6 +247,7 @@ function studentFactury(_this){
 	}).bind(student);
 
 	student.init = function(){
+		if(this.status!="have") return;
 		this.bindHandler();
 		this.initData();
 	};
