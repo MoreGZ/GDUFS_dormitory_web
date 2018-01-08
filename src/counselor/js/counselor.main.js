@@ -190,14 +190,14 @@ var main = {
 		if(!handler){
 			handler = function(){};
 		}
-
+		console.log(_this.currentPage);
 		// 后台获取数据
 		$.get(this.apiUrl1,{
-			page:this.currentPage
+			page:page
 		},function(data,status){
 			data = JSON.parse(data);
 			_this.data[page] = data;
-			console.log(_this.data);
+			
 			handler();
 		})
 	},
