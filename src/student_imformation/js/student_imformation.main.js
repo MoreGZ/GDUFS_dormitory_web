@@ -36,7 +36,6 @@ function createMainBox(title,li1,li2){
 			for(index in this.li1){
 				var x = $('.'+this.title).find('.'+this.li1[index]).css('display','none');
 				x.siblings('input').css('display','inline-block');
-				// console.log(x);
 				x.siblings('select').css('display','inline-block');
 				x.siblings('label').css('display','inline-block');
 			}
@@ -333,6 +332,7 @@ function createMainBox(title,li1,li2){
 				}
 				if(_this.status=='normal'){
 					_this.handler.eidtHandler.apply(_this);
+					_this.handler.showInsurance.apply(_this);
 					$(this).text("取消")
 					return;
 				}
@@ -347,9 +347,7 @@ function createMainBox(title,li1,li2){
 			
 			for(index in _this.li1){
 				if(_this.li1[index]=='ifInsurance'){
-
 					$("input[name='ifInsurance']").change(function(){
-						// console.log("x");
 						_this.handler.showInsurance.apply(_this);
 					})
 				}
