@@ -132,7 +132,7 @@ var main = {
 		_this.data[0] = [];
 		var selectorDoms = $(".select");
 		$(".main_body_main").find('.li').each(function(index){
-			var obj = ['collage','className','counselor']
+			var obj = ['collage','class_name','counselor']
 			var _index = index;
 			_this.data[0][_index] = {};
 			$(this).children('ul').children("li").each(function(index){
@@ -350,7 +350,7 @@ var main = {
 
 			var x = $(this).find("li");
 			x.eq(0).html(_this.data[aimPage-1][index].collage);					
-			x.eq(1).html(_this.data[aimPage-1][index].className);			
+			x.eq(1).html(_this.data[aimPage-1][index].class_name);			
 			x.eq(2).html(_this.data[aimPage-1][index].counselor);			
 
 		 	_this.selector[index].setCounselor(_this.selectValue[aimPage-1] ? _this.selectValue[aimPage-1][index] : _this.data[aimPage-1][index].counselor);
