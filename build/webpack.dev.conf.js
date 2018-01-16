@@ -9,7 +9,7 @@ var webpackDevConf = merge(webpackBaseConf, {
 	entry:[
 		'./build/dev_client',
 		// 'webpack-hot-middleware/client',
-		'./src/dormitory_imformation_b/js/dormitory_imformation_b.main.js'
+		'./src/student/js/student.main.js'
 	],
 	output:{
 		path: '/',
@@ -20,7 +20,7 @@ var webpackDevConf = merge(webpackBaseConf, {
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),
 		new htmlWebpackPlugin({
-			template: './src/dormitory_imformation_b/dormitory_imformation_b.temp.html',
+			template: './src/student/student.temp.html',
 			filename:"index.html"
 		}),
         new webpack.DefinePlugin({
