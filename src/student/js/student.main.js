@@ -168,9 +168,17 @@ var main = {
 			handler = function(){};
 		}
 		$.get(this.apiUrl,{
-			page:this.currentPage
+			page:this.currentPage-1
 		},function(data,status){
 			data = JSON.parse(data);
+			if(data.length<10){
+				var obj = {};
+				obj.link = "";
+				obj.main = {name:"",id:"",collage:"",major:""};
+				while (data.length<10) {
+					data.push(obj);
+				}
+			}
 			_this.data[page] = data;
 			console.log(_this.data);
 			handler();
